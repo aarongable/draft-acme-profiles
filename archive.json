@@ -1,0 +1,83 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-08-25T01:35:03.460452+00:00",
+  "repo": "aarongable/draft-acme-profiles",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOMniVDM55S7mg",
+      "title": "Initial content and TODOs",
+      "url": "https://github.com/aarongable/draft-acme-profiles/pull/1",
+      "state": "MERGED",
+      "author": "aarongable",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Add headers for the sections I expect to fill out. Add initial content and TODOs to each section. Update metadata to remove unnecessary information.",
+      "createdAt": "2024-08-24T00:07:40Z",
+      "updatedAt": "2024-08-24T00:30:10Z",
+      "baseRepository": "aarongable/draft-acme-profiles",
+      "baseRefName": "main",
+      "baseRefOid": "a93c011231842721b5b4234a9f1c470d0b46d5c2",
+      "headRepository": "aarongable/draft-acme-profiles",
+      "headRefName": "begin",
+      "headRefOid": "2199b1fbcbf8120506f739aa6e18c87e3f699420",
+      "closedAt": "2024-08-24T00:30:08Z",
+      "mergedAt": "2024-08-24T00:30:08Z",
+      "mergedBy": "aarongable",
+      "mergeCommit": {
+        "oid": "fa8d7ad2a3b45d112e388e05e5bb3baa331a79d5"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
