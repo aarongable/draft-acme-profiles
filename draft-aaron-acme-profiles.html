@@ -7,19 +7,19 @@
 <title>Automated Certificate Management Environment (ACME) Profiles Extension</title>
 <meta content="Aaron Gable" name="author">
 <meta content="
-       TODO Abstract 
+       This document defines how an ACME Server may offer a selection of different certificate profiles to ACME Clients, and how those clients may indicate which profile they want. 
     " name="description">
-<meta content="xml2rfc 3.22.0" name="generator">
+<meta content="xml2rfc 3.23.2" name="generator">
 <meta content="draft-aaron-acme-profiles-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.22.0
-    Python 3.12.3
+  xml2rfc 3.23.2
+    Python 3.12.7
     ConfigArgParse 1.7
-    google-i18n-address 3.1.0
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
     lxml 4.9.4
-    platformdirs 4.2.2
+    platformdirs 4.3.6
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.32.3
@@ -1023,11 +1023,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">ACME Profiles</td>
-<td class="right">August 2024</td>
+<td class="right">October 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Gable</td>
-<td class="center">Expires 25 February 2025</td>
+<td class="center">Expires 12 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1040,12 +1040,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-aaron-acme-profiles-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-08-24" class="published">24 August 2024</time>
+<time datetime="2024-10-09" class="published">9 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-02-25">25 February 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-12">12 April 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1058,7 +1058,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Automated Certificate Management Environment (ACME) Profiles Extension</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">TODO Abstract<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines how an ACME Server may offer a selection of different certificate profiles to ACME Clients, and how those clients may indicate which profile they want.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1102,7 +1102,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 February 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1155,6 +1155,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-acme-order-object-fields" class="internal xref">ACME Order Object Fields</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-acme-error-types" class="internal xref">ACME Error Types</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
@@ -1175,7 +1178,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">TODO Introduction<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">Throughout the history of the WebPKI, Certificate Authorities have used "profiles" to describe the kinds of certificates they issue. For example, an "S/MIME" profile might indicate that the resulting certificate will contain the <code>id-kp-emailProtection</code> Extended Key Usage and use a Certificate Policy OID to assert compliance with the CA/Browser Forum S/MIME Baseline Requirements; or a "Constrained Sub-CA" profile might indicate the inclusion of the Basic Constraints extension, the keyCertSign Key Usage, and a Name Constraints extension. Subscribers generally select a profile as part of their certificate ordering process or negotiations with the CA, depending on their needs (and sometimes their budget).<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">The ACME protocol only allows clients to customize their certificate in two ways: the newOrder request allows selection of the identifiers (generally Subject Alternative Names) and validity period; and the finalize request contains a CSR in which the client can theoretically include any combination of fields and extensions that they desire. But requesting certificate features via the CSR is onerous, error-prone, and dangerous. Numerous compliance incidents across the WebPKI have been caused by CAs trusting values included in a CSR and copying them directly into the issued certificate. It requires clients to know how to construct a valid CSR, provides no mechanism for servers to advertise what CSR fields they're willing to accept, and means that CAs have to evaluate on a case-by-case basis which combinations of requested features they're willing to issue.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document provides a mechanism for ACME Servers to advertise what certificate profiles they offer, and for ACME Clients to select a profile when creating a new Order. This allows site operators to make informed decisions about the kind of certificate they request, without placing an undue burden on ACME Clients or Servers to transmit such information in the form of a CSR. It also encourages the evolution of the WebPKI by allowing CAs to more easily offer new and improved profiles while maintaining backwards compatibility for old subscribers.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1194,16 +1199,34 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-extensions-to-the-directory">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-extensions-to-the-directory" class="section-name selfRef">Extensions to the Directory Resource</a>
       </h2>
-<p id="section-3-1">An ACME Server which wishes to allow Clients to select profiles <span class="bcp14">MUST</span> include a new field, <code>profiles</code>, in the <code>meta</code> section of its Directory object. This field is itself a mapping of profile names to human-readable descriptions of those profiles.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">TODO:<a href="#section-3-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3-3.1">
-          <p id="section-3-3.1.1">Descriptions may be prose or links to documentation pages<a href="#section-3-3.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-3-3.2">
-          <p id="section-3-3.2.1">Example<a href="#section-3-3.2.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
+<p id="section-3-1">An ACME Server which wishes to allow Clients to select profiles <span class="bcp14">MUST</span> include a new field, <code>profiles</code>, in the <code>meta</code> field of its Directory object.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2"><code>profiles</code> (optional, object):  A map of profile names to human-readable descriptions of those profiles.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">The contents of these human-readable descriptions are up to the CA; for example, they might be prose descriptions of the properties of the profile, or the might be URLs pointing at a documentation site. ACME Clients <span class="bcp14">SHOULD</span> present these profile names and descriptions to their operator during initial setup and at appropriate times thereafter.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-3-4">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "newNonce": "https://example.com/acme/new-nonce",
+  "newAccount": "https://example.com/acme/new-account",
+  "newOrder": "https://example.com/acme/new-order",
+  "newAuthz": "https://example.com/acme/new-authz",
+  "revokeCert": "https://example.com/acme/revoke-cert",
+  "keyChange": "https://example.com/acme/key-change",
+  "meta": {
+    "termsOfService": "https://example.com/acme/terms/2021-10-05",
+    "website": "https://www.example.com/",
+    "caaIdentities": ["example.com"],
+    "externalAccountRequired": false,
+    "profiles": {
+      "profile1": "https://example.com/docs/profiles#profile1",
+      "profile2": "https://example.com/docs/profiles#profile2",
+    }
+  }
+}
+</pre><a href="#section-3-4" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 <div id="extensions-to-the-order-resource">
@@ -1213,21 +1236,43 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       </h2>
 <p id="section-4-1">In order to convey information about the profile associated with an Order, a new field is added to the Order object:<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2"><code>profile</code> (string, optional): A string uniquely identifying the profile which will be used to affect issuance of the certificate requested by this Order.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">TODO:<a href="#section-4-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4-4.1">
-          <p id="section-4-4.1.1">Clients must only request profiles which are advertised in the directory<a href="#section-4-4.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-4-4.2">
-          <p id="section-4-4.2.1">Servers must reject any request which specifies an unrecognized profile<a href="#section-4-4.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-4-4.3">
-          <p id="section-4-4.3.1">Servers may assign a profile to requests which do not specify one<a href="#section-4-4.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-4-4.4">
-          <p id="section-4-4.4.1">Request and response examples<a href="#section-4-4.4.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
+<p id="section-4-3">To select a profile, the client includes the desired profile name in the <code>profile</code> field of the Order object they supply to the newOrder request. The client <span class="bcp14">MUST NOT</span> request a profile name that is not advertised in the server's Directory metadata object.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<div class="lang-text sourcecode" id="section-4-4">
+<pre>
+POST /acme/new-order HTTP/1.1
+Host: example.com
+Content-Type: application/jose+json
+
+{
+  "protected": base64url({
+    "alg": "ES256",
+    "kid": "https://example.com/acme/acct/evOfKhNU60wg",
+    "nonce": "5XJ1L3lEkMG7tR6pA00clA",
+    "url": "https://example.com/acme/new-order"
+  }),
+  "payload": base64url({
+    "profile": "profile1"
+    "identifiers": [{"type": "dns", "value": "example.org"}],
+  }),
+  "signature": "H6ZXtGjTZyUnPeKn...wEA4TklBdh3e454g"
+}
+</pre><a href="#section-4-4" class="pilcrow">¶</a>
+</div>
+<p id="section-4-5">If the server receives a newOrder request specifying a profile that it is not advertising, or specifying a profile which is incompatible with the rest of the contents of the request (e.g. a "tls-server-auth" profile alongside an identifier of type "email"), it <span class="bcp14">MUST</span> reject the request with a problem document of type "invalidProfile" (see Section 6.3).<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6">If the server is advertizing profiles and receives a newOrder request which does not identify a specific profile, it is <span class="bcp14">RECOMMENDED</span> that the server select a profile and associate it with the new Order object.<a href="#section-4-6" class="pilcrow">¶</a></p>
+<div class="lang-text sourcecode" id="section-4-7">
+<pre>
+   {
+     "status": "valid",
+     "expires": "2025-01-01T12:00:00Z",
+     "profile": "profile1",
+     "identifiers": [{"type": "dns", "value": "example.org"}],
+     "authorizations": ["https://example.com/acme/authz/PAniVnsZcis"],
+     "finalize": "https://example.com/acme/order/TOlocE8rfgo/finalize",
+   }
+</pre><a href="#section-4-7" class="pilcrow">¶</a>
+</div>
+<p id="section-4-8">If a server receives a request to finalize an Order whose profile the CA is no longer willing to issue under, it <span class="bcp14">MUST</span> respond with a problem document of type "invalidProfile". The server <span class="bcp14">SHOULD</span> attempt to avoid this situation, e.g. by ensuring that all Orders for a profile have expired before it stops issuing under that profile.<a href="#section-4-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -1235,19 +1280,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-security-considerations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-5-1">The extensions to the ACME protocol described in this document build upon the Security Considerations and threat model defined in <span><a href="https://rfc-editor.org/rfc/rfc8555#section-10.1" class="relref">Section 10.1</a> of [<a href="#RFC8555" class="cite xref">RFC8555</a>]</span>.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">TODO:<a href="#section-5-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5-3.1">
-          <p id="section-5-3.1.1">ACME Servers must ensure that all profiles they offer abide by the requirements which govern their PKI, such as their CPS<a href="#section-5-3.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-3.2">
-          <p id="section-5-3.2.1">Only allowing a single profile to be requested, i.e. not offering a a buffet of options that can be mixed and matched, greatly simplifies this compliance<a href="#section-5-3.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-5-3.3">
-          <p id="section-5-3.3.1">Transporting profile information via ACME rather than via CSR reduces incidents<a href="#section-5-3.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
+<p id="section-5-1">The extensions to the ACME protocol described in this document build upon the Security Considerations and threat model defined in <span><a href="https://rfc-editor.org/rfc/rfc8555#section-10.1" class="relref">Section 10.1</a> of [<a href="#RFC8555" class="cite xref">RFC8555</a>]</span>. It does not change the account management or identifier validation flows, so the security considerations are largely unchanged.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">The one exception is in regards to CA Policy Considerations. RFC 8555 did not address how a server should determine whether it is willing to issue the certificate as requested by the finalize CSR. This document greatly simplifies this determination by making the contents of the CSR (beyond the Subject Alternative Names and Subject Public Key) irrelevant to the decision-making process.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-3">Additionally, by moving profile selection out of the finalize CSR and into the Order resource itself, this document reduces the need for ACME Clients and Servers to parse and process x509 ASN.1. This increases the security and stability of the WebPKI as a whole by reducing the incidence of parsing errors and the likelihood of values being copied directly from the CSR into the resulting certificate.<a href="#section-5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -1301,6 +1336,31 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
               <td class="text-left" rowspan="1" colspan="1">profile</td>
               <td class="text-left" rowspan="1" colspan="1">string</td>
               <td class="text-left" rowspan="1" colspan="1">true</td>
+              <td class="text-left" rowspan="1" colspan="1">This document</td>
+            </tr>
+          </tbody>
+        </table>
+</section>
+</div>
+<div id="acme-error-types">
+<section id="section-6.3">
+        <h3 id="name-acme-error-types">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-acme-error-types" class="section-name selfRef">ACME Error Types</a>
+        </h3>
+<p id="section-6.3-1">IANA will add the following entry to the "ACME Error Types" registry within the "Automated Certificate Management Environment (ACME) Protocol" registry group at <a href="https://www.iana.org/assignments/acme">https://www.iana.org/assignments/acme</a>:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-3">
+          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Description</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">invalidProfile</td>
+              <td class="text-left" rowspan="1" colspan="1">The request specified a profile which this server does not support</td>
               <td class="text-left" rowspan="1" colspan="1">This document</td>
             </tr>
           </tbody>
