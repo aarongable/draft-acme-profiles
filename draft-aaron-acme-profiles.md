@@ -36,7 +36,7 @@ This document defines how an ACME Server may offer a selection of different cert
 
 This note is to be removed before publishing as an RFC.
 
-Let's Encrypt's [Boulder](https://github.com/letsencrypt/boulder) ACME Server software fully implements this draft. Let's Encrypt has not yet configured profiles to be advertised in their [Production](https://acme-v02.api.letsencrypt.org/directory) and [Staging](https://acme-staging-v02.api.letsencrypt.org/directory) environments.  The [Pebble](https://githbu.com/letsencrypt/pebble) ACME Server testbed also implements this draft.
+Let's Encrypt's [Boulder](https://github.com/letsencrypt/boulder) ACME Server software fully implements this draft. Let's Encrypt has not yet configured profiles to be advertised in their [Production](https://acme-v02.api.letsencrypt.org/directory) and [Staging](https://acme-staging-v02.api.letsencrypt.org/directory) environments.  The [Pebble](https://github.com/letsencrypt/pebble) ACME Server testbed also implements this draft.
 
 --- middle
 
