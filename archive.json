@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-10T01:37:39.799048+00:00",
+  "timestamp": "2024-10-13T01:43:24.710126+00:00",
   "repo": "aarongable/draft-acme-profiles",
   "labels": [
     {
@@ -49,7 +49,32 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 3,
+      "id": "I_kwDOMniVDM6Zu_Pj",
+      "title": "Is the advertised profile name case sensitive?",
+      "url": "https://github.com/aarongable/draft-acme-profiles/issues/3",
+      "state": "CLOSED",
+      "author": "pgporada",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "If a server advertises\r\n```\r\n  \"meta\": {\r\n    \"profiles\": {\r\n      \"profile1\": \"https://example.com/docs/profiles#profile1\",\r\n      \"PrOfIlE2\": \"https://example.com/docs/profiles#PROFILE2\",\r\n    }\r\n  }\r\n}\r\n```\r\n\r\nand a client submits a new order specifying the following \r\n```\r\n  \"payload\": base64url({\r\n    \"profile\": \"profile2\"\r\n    \"identifiers\": [{\"type\": \"dns\", \"value\": \"example.org\"}],\r\n  }),\r\n```\r\n\r\n* Is it recommended that the server reject that request since the name doesn't match exactly what's advertised? \r\n* Is it recommended that the server perform normalization on the advertised name and incoming new order request?",
+      "createdAt": "2024-10-10T15:45:32Z",
+      "updatedAt": "2024-10-10T19:24:57Z",
+      "closedAt": "2024-10-10T19:24:57Z",
+      "comments": [
+        {
+          "author": "aarongable",
+          "authorAssociation": "OWNER",
+          "body": "Good question! JSON keys are case sensitive, so I think \"profile2\" and \"pROfiLE2\" should be considered different -- the client has erred by requesting a non-advertised profile, and the server should reject the request.",
+          "createdAt": "2024-10-10T17:28:32Z",
+          "updatedAt": "2024-10-10T17:28:32Z"
+        }
+      ]
+    }
+  ],
   "pulls": [
     {
       "number": 1,
@@ -77,6 +102,42 @@
         "oid": "fa8d7ad2a3b45d112e388e05e5bb3baa331a79d5"
       },
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOMniVDM5-PP-1",
+      "title": "Fix link in Current Implementations",
+      "url": "https://github.com/aarongable/draft-acme-profiles/pull/2",
+      "state": "MERGED",
+      "author": "aarongable",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "githbu -> github",
+      "createdAt": "2024-10-10T15:10:39Z",
+      "updatedAt": "2024-10-10T17:25:50Z",
+      "baseRepository": "aarongable/draft-acme-profiles",
+      "baseRefName": "main",
+      "baseRefOid": "e0db0c238c1ca38950d375a78610a416da735feb",
+      "headRepository": "aarongable/draft-acme-profiles",
+      "headRefName": "aarongable-patch-1",
+      "headRefOid": "ce7c9aeed165e562e616bb3ad32e091aeb04c579",
+      "closedAt": "2024-10-10T17:25:49Z",
+      "mergedAt": "2024-10-10T17:25:49Z",
+      "mergedBy": "aarongable",
+      "mergeCommit": {
+        "oid": "851cc1e587aba21c9dbdda29cf450451a1a73833"
+      },
+      "comments": [
+        {
+          "author": "pgporada",
+          "authorAssociation": "NONE",
+          "body": "LGTM",
+          "createdAt": "2024-10-10T15:25:04Z",
+          "updatedAt": "2024-10-10T15:25:04Z"
+        }
+      ],
       "reviews": []
     }
   ]
