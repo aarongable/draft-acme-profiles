@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T01:35:15.270143+00:00",
+  "timestamp": "2025-02-06T01:37:55.554341+00:00",
   "repo": "aarongable/draft-acme-profiles",
   "labels": [
     {
@@ -139,6 +139,48 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOMniVDM6KBYCw",
+      "title": "Update GitHub Actions workflows",
+      "url": "https://github.com/aarongable/draft-acme-profiles/pull/5",
+      "state": "MERGED",
+      "author": "divergentdave",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is the result of running `make update-workflows`. The `actions/upload-artifact@v3` action is no longer functional, see https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/.",
+      "createdAt": "2025-02-04T16:10:43Z",
+      "updatedAt": "2025-02-04T17:56:02Z",
+      "baseRepository": "aarongable/draft-acme-profiles",
+      "baseRefName": "main",
+      "baseRefOid": "851cc1e587aba21c9dbdda29cf450451a1a73833",
+      "headRepository": "divergentdave/draft-acme-profiles",
+      "headRefName": "david/workflows",
+      "headRefOid": "da2e67ebcc43252d591c9aa0bb2ff70a6e045205",
+      "closedAt": "2025-02-04T17:56:02Z",
+      "mergedAt": "2025-02-04T17:56:02Z",
+      "mergedBy": "aarongable",
+      "mergeCommit": {
+        "oid": "cdaa9f6836ecfb4b5909be7131134aa29ebb1216"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMniVDM6al65a",
+          "commit": {
+            "abbreviatedOid": "da2e67e"
+          },
+          "author": "aarongable",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-04T17:55:27Z",
+          "updatedAt": "2025-02-04T17:55:27Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
