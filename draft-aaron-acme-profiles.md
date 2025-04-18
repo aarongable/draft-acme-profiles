@@ -61,27 +61,27 @@ An ACME Server which wishes to allow Clients to select profiles MUST include a n
 The contents of these human-readable descriptions are up to the CA; for example, they might be prose descriptions of the properties of the profile, or the might be URLs pointing at a documentation site. ACME Clients SHOULD present these profile names and descriptions to their operator during initial setup and at appropriate times thereafter.
 
 ~~~ json
-HTTP/1.1 200 OK
-Content-Type: application/json
+    HTTP/1.1 200 OK
+    Content-Type: application/json
 
-{
-  "newNonce": "https://acme.example.com/new-nonce",
-  "newAccount": "https://acme.example.com/new-account",
-  "newOrder": "https://acme.example.com/new-order",
-  "newAuthz": "https://acme.example.com/new-authz",
-  "revokeCert": "https://acme.example.com/revoke-cert",
-  "keyChange": "https://acme.example.com/key-change",
-  "meta": {
-    "termsOfService": "https://example.com/acme/terms",
-    "website": "https://example.com/acme/docs",
-    "caaIdentities": ["example.com"],
-    "externalAccountRequired": false,
-    "profiles": {
-      "profile1": "https://example.com/acme/docs/profiles#profile1",
-      "profile2": "https://example.com/acme/docs/profiles#profile2",
+    {
+      "newNonce": "https://acme.example.com/new-nonce",
+      "newAccount": "https://acme.example.com/new-account",
+      "newOrder": "https://acme.example.com/new-order",
+      "newAuthz": "https://acme.example.com/new-authz",
+      "revokeCert": "https://acme.example.com/revoke-cert",
+      "keyChange": "https://acme.example.com/key-change",
+      "meta": {
+        "termsOfService": "https://example.com/acme/terms",
+        "website": "https://example.com/acme/docs",
+        "caaIdentities": ["example.com"],
+        "externalAccountRequired": false,
+        "profiles": {
+          "profile1": "https://example.com/acme/docs/profiles#profile1",
+          "profile2": "https://example.com/acme/docs/profiles#profile2",
+        }
+      }
     }
-  }
-}
 ~~~
 
 # Extensions to the Order Resource
@@ -93,39 +93,46 @@ In order to convey information about the profile associated with an Order, a new
 To select a profile, the client includes the desired profile name in the `profile` field of the Order object they supply to the newOrder request. The client MUST NOT request a profile name that is not advertised in the server's Directory metadata object.
 
 ~~~ text
-POST /acme/new-order HTTP/1.1
-Host: acme.example.com
-Content-Type: application/jose+json
+    POST /acme/new-order HTTP/1.1
+    Host: acme.example.com
+    Content-Type: application/jose+json
 
-{
-  "protected": base64url({
-    "alg": "ES256",
-    "kid": "https://acme.example.com/acct/evOfKhNU60wg",
-    "nonce": "5XJ1L3lEkMG7tR6pA00clA",
-    "url": "https://acme.example.com/new-order"
-  }),
-  "payload": base64url({
-    "identifiers": [{"type": "dns", "value": "example.org"}],
-    "profile": "profile1"
-  }),
-  "signature": "H6ZXtGjTZyUnPeKn...wEA4TklBdh3e454g"
-}
+    {
+      "protected": base64url({
+        "alg": "ES256",
+        "kid": "https://acme.example.com/acct/evOfKhNU60wg",
+        "nonce": "5XJ1L3lEkMG7tR6pA00clA",
+        "url": "https://acme.example.com/new-order"
+      }),
+      "payload": base64url({
+        "identifiers": [{"type": "dns", "value": "example.org"}],
+        "profile": "profile1"
+      }),
+      "signature": "H6ZXtGjTZyUnPeKn...wEA4TklBdh3e454g"
+    }
 ~~~
 
 If the server receives a newOrder request specifying a profile that it is not advertising, or specifying a profile which is incompatible with the rest of the contents of the request (e.g. a "tls-server-auth" profile alongside an identifier of type "email"), it MUST reject the request with a problem document of type "invalidProfile" (see Section 6.3).
 
-If the server is advertizing profiles and receives a newOrder request which does not identify a specific profile, it is RECOMMENDED that the server select a profile and associate it with the new Order object.
+If it accepts the request, the server responds with an Order object including the selected profile.
 
 ~~~ text
-   {
-     "status": "valid",
-     "expires": "2025-01-01T12:00:00Z",
-     "identifiers": [{"type": "dns", "value": "example.org"}],
-     "profile": "profile1",
-     "authorizations": ["https://acme.example.com/authz/PAniVnsZcis"],
-     "finalize": "https://acme.example.com/order/TOlocE8rfgo/finalize",
-   }
+    HTTP/1.1 201 Created
+    Replay-Nonce: MYAuvOpaoIiywTezizk5vw
+    Link: <https://acme.example.com/directory>;rel="index"
+    Location: https://acme.example.com/order/TOlocE8rfgo
+
+    {
+      "status": "valid",
+      "expires": "2025-01-01T12:00:00Z",
+      "identifiers": [{"type": "dns", "value": "example.org"}],
+      "profile": "profile1",
+      "authorizations": ["https://acme.example.com/authz/PAniVnsZcis"],
+      "finalize": "https://acme.example.com/order/TOlocE8rfgo/finalize",
+    }
 ~~~
+
+If the server is advertizing profiles and receives a newOrder request which does not identify a specific profile, it is RECOMMENDED that the server select a profile and associate it with the new Order object.
 
 If a server receives a request to finalize an Order whose profile the CA is no longer willing to issue under, it MUST respond with a problem document of type "invalidProfile". The server SHOULD attempt to avoid this situation, e.g. by ensuring that all Orders for a profile have expired before it stops issuing under that profile.
 
