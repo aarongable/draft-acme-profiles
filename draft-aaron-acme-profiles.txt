@@ -168,20 +168,20 @@ Table of Contents
    Content-Type: application/json
 
    {
-     "newNonce": "https://example.com/acme/new-nonce",
-     "newAccount": "https://example.com/acme/new-account",
-     "newOrder": "https://example.com/acme/new-order",
-     "newAuthz": "https://example.com/acme/new-authz",
-     "revokeCert": "https://example.com/acme/revoke-cert",
-     "keyChange": "https://example.com/acme/key-change",
+     "newNonce": "https://acme.example.com/new-nonce",
+     "newAccount": "https://acme.example.com/new-account",
+     "newOrder": "https://acme.example.com/new-order",
+     "newAuthz": "https://acme.example.com/new-authz",
+     "revokeCert": "https://acme.example.com/revoke-cert",
+     "keyChange": "https://acme.example.com/key-change",
      "meta": {
-       "termsOfService": "https://example.com/acme/terms/2021-10-05",
-       "website": "https://www.example.com/",
+       "termsOfService": "https://example.com/acme/terms",
+       "website": "https://example.com/acme/docs",
        "caaIdentities": ["example.com"],
        "externalAccountRequired": false,
        "profiles": {
-         "profile1": "https://example.com/docs/profiles#profile1",
-         "profile2": "https://example.com/docs/profiles#profile2",
+         "profile1": "https://example.com/acme/docs/profiles#profile1",
+         "profile2": "https://example.com/acme/docs/profiles#profile2",
        }
      }
    }
@@ -201,19 +201,19 @@ Table of Contents
    advertised in the server's Directory metadata object.
 
    POST /acme/new-order HTTP/1.1
-   Host: example.com
+   Host: acme.example.com
    Content-Type: application/jose+json
 
    {
      "protected": base64url({
        "alg": "ES256",
-       "kid": "https://example.com/acme/acct/evOfKhNU60wg",
+       "kid": "https://acme.example.com/acct/evOfKhNU60wg",
        "nonce": "5XJ1L3lEkMG7tR6pA00clA",
-       "url": "https://example.com/acme/new-order"
+       "url": "https://acme.example.com/new-order"
      }),
      "payload": base64url({
-       "profile": "profile1"
        "identifiers": [{"type": "dns", "value": "example.org"}],
+       "profile": "profile1"
      }),
      "signature": "H6ZXtGjTZyUnPeKn...wEA4TklBdh3e454g"
    }
@@ -233,10 +233,10 @@ Table of Contents
       {
         "status": "valid",
         "expires": "2025-01-01T12:00:00Z",
-        "profile": "profile1",
         "identifiers": [{"type": "dns", "value": "example.org"}],
-        "authorizations": ["https://example.com/acme/authz/PAniVnsZcis"],
-        "finalize": "https://example.com/acme/order/TOlocE8rfgo/finalize",
+        "profile": "profile1",
+        "authorizations": ["https://acme.example.com/authz/PAniVnsZcis"],
+        "finalize": "https://acme.example.com/order/TOlocE8rfgo/finalize",
       }
 
    If a server receives a request to finalize an Order whose profile the
