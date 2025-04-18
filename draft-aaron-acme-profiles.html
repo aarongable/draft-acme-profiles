@@ -1224,27 +1224,27 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3-3">The contents of these human-readable descriptions are up to the CA; for example, they might be prose descriptions of the properties of the profile, or the might be URLs pointing at a documentation site. ACME Clients <span class="bcp14">SHOULD</span> present these profile names and descriptions to their operator during initial setup and at appropriate times thereafter.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-3-4">
 <pre>
-HTTP/1.1 200 OK
-Content-Type: application/json
+    HTTP/1.1 200 OK
+    Content-Type: application/json
 
-{
-  "newNonce": "https://acme.example.com/new-nonce",
-  "newAccount": "https://acme.example.com/new-account",
-  "newOrder": "https://acme.example.com/new-order",
-  "newAuthz": "https://acme.example.com/new-authz",
-  "revokeCert": "https://acme.example.com/revoke-cert",
-  "keyChange": "https://acme.example.com/key-change",
-  "meta": {
-    "termsOfService": "https://example.com/acme/terms",
-    "website": "https://example.com/acme/docs",
-    "caaIdentities": ["example.com"],
-    "externalAccountRequired": false,
-    "profiles": {
-      "profile1": "https://example.com/acme/docs/profiles#profile1",
-      "profile2": "https://example.com/acme/docs/profiles#profile2",
+    {
+      "newNonce": "https://acme.example.com/new-nonce",
+      "newAccount": "https://acme.example.com/new-account",
+      "newOrder": "https://acme.example.com/new-order",
+      "newAuthz": "https://acme.example.com/new-authz",
+      "revokeCert": "https://acme.example.com/revoke-cert",
+      "keyChange": "https://acme.example.com/key-change",
+      "meta": {
+        "termsOfService": "https://example.com/acme/terms",
+        "website": "https://example.com/acme/docs",
+        "caaIdentities": ["example.com"],
+        "externalAccountRequired": false,
+        "profiles": {
+          "profile1": "https://example.com/acme/docs/profiles#profile1",
+          "profile2": "https://example.com/acme/docs/profiles#profile2",
+        }
+      }
     }
-  }
-}
 </pre><a href="#section-3-4" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1259,40 +1259,46 @@ Content-Type: application/json
 <p id="section-4-3">To select a profile, the client includes the desired profile name in the <code>profile</code> field of the Order object they supply to the newOrder request. The client <span class="bcp14">MUST NOT</span> request a profile name that is not advertised in the server's Directory metadata object.<a href="#section-4-3" class="pilcrow">¶</a></p>
 <div class="lang-text sourcecode" id="section-4-4">
 <pre>
-POST /acme/new-order HTTP/1.1
-Host: acme.example.com
-Content-Type: application/jose+json
+    POST /acme/new-order HTTP/1.1
+    Host: acme.example.com
+    Content-Type: application/jose+json
 
-{
-  "protected": base64url({
-    "alg": "ES256",
-    "kid": "https://acme.example.com/acct/evOfKhNU60wg",
-    "nonce": "5XJ1L3lEkMG7tR6pA00clA",
-    "url": "https://acme.example.com/new-order"
-  }),
-  "payload": base64url({
-    "identifiers": [{"type": "dns", "value": "example.org"}],
-    "profile": "profile1"
-  }),
-  "signature": "H6ZXtGjTZyUnPeKn...wEA4TklBdh3e454g"
-}
+    {
+      "protected": base64url({
+        "alg": "ES256",
+        "kid": "https://acme.example.com/acct/evOfKhNU60wg",
+        "nonce": "5XJ1L3lEkMG7tR6pA00clA",
+        "url": "https://acme.example.com/new-order"
+      }),
+      "payload": base64url({
+        "identifiers": [{"type": "dns", "value": "example.org"}],
+        "profile": "profile1"
+      }),
+      "signature": "H6ZXtGjTZyUnPeKn...wEA4TklBdh3e454g"
+    }
 </pre><a href="#section-4-4" class="pilcrow">¶</a>
 </div>
 <p id="section-4-5">If the server receives a newOrder request specifying a profile that it is not advertising, or specifying a profile which is incompatible with the rest of the contents of the request (e.g. a "tls-server-auth" profile alongside an identifier of type "email"), it <span class="bcp14">MUST</span> reject the request with a problem document of type "invalidProfile" (see Section 6.3).<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">If the server is advertizing profiles and receives a newOrder request which does not identify a specific profile, it is <span class="bcp14">RECOMMENDED</span> that the server select a profile and associate it with the new Order object.<a href="#section-4-6" class="pilcrow">¶</a></p>
+<p id="section-4-6">If it accepts the request, the server responds with an Order object including the selected profile.<a href="#section-4-6" class="pilcrow">¶</a></p>
 <div class="lang-text sourcecode" id="section-4-7">
 <pre>
-   {
-     "status": "valid",
-     "expires": "2025-01-01T12:00:00Z",
-     "identifiers": [{"type": "dns", "value": "example.org"}],
-     "profile": "profile1",
-     "authorizations": ["https://acme.example.com/authz/PAniVnsZcis"],
-     "finalize": "https://acme.example.com/order/TOlocE8rfgo/finalize",
-   }
+    HTTP/1.1 201 Created
+    Replay-Nonce: MYAuvOpaoIiywTezizk5vw
+    Link: &lt;https://acme.example.com/directory&gt;;rel="index"
+    Location: https://acme.example.com/order/TOlocE8rfgo
+
+    {
+      "status": "valid",
+      "expires": "2025-01-01T12:00:00Z",
+      "identifiers": [{"type": "dns", "value": "example.org"}],
+      "profile": "profile1",
+      "authorizations": ["https://acme.example.com/authz/PAniVnsZcis"],
+      "finalize": "https://acme.example.com/order/TOlocE8rfgo/finalize",
+    }
 </pre><a href="#section-4-7" class="pilcrow">¶</a>
 </div>
-<p id="section-4-8">If a server receives a request to finalize an Order whose profile the CA is no longer willing to issue under, it <span class="bcp14">MUST</span> respond with a problem document of type "invalidProfile". The server <span class="bcp14">SHOULD</span> attempt to avoid this situation, e.g. by ensuring that all Orders for a profile have expired before it stops issuing under that profile.<a href="#section-4-8" class="pilcrow">¶</a></p>
+<p id="section-4-8">If the server is advertizing profiles and receives a newOrder request which does not identify a specific profile, it is <span class="bcp14">RECOMMENDED</span> that the server select a profile and associate it with the new Order object.<a href="#section-4-8" class="pilcrow">¶</a></p>
+<p id="section-4-9">If a server receives a request to finalize an Order whose profile the CA is no longer willing to issue under, it <span class="bcp14">MUST</span> respond with a problem document of type "invalidProfile". The server <span class="bcp14">SHOULD</span> attempt to avoid this situation, e.g. by ensuring that all Orders for a profile have expired before it stops issuing under that profile.<a href="#section-4-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
