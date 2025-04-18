@@ -60,7 +60,7 @@ An ACME Server which wishes to allow Clients to select profiles MUST include a n
 
 The contents of these human-readable descriptions are up to the CA; for example, they might be prose descriptions of the properties of the profile, or the might be URLs pointing at a documentation site. ACME Clients SHOULD present these profile names and descriptions to their operator during initial setup and at appropriate times thereafter.
 
-~~~ json
+~~~ text
     HTTP/1.1 200 OK
     Content-Type: application/json
 
