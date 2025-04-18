@@ -1222,7 +1222,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3-1">An ACME Server which wishes to allow Clients to select profiles <span class="bcp14">MUST</span> include a new field, <code>profiles</code>, in the <code>meta</code> field of its Directory object.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2"><code>profiles</code> (optional, object):  A map of profile names to human-readable descriptions of those profiles.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">The contents of these human-readable descriptions are up to the CA; for example, they might be prose descriptions of the properties of the profile, or the might be URLs pointing at a documentation site. ACME Clients <span class="bcp14">SHOULD</span> present these profile names and descriptions to their operator during initial setup and at appropriate times thereafter.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-3-4">
+<div class="lang-text sourcecode" id="section-3-4">
 <pre>
     HTTP/1.1 200 OK
     Content-Type: application/json
