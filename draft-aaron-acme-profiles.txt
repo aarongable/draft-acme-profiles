@@ -4,8 +4,8 @@
 
 Automated Certificate Management Environment                    A. Gable
 Internet-Draft                          Internet Security Research Group
-Intended status: Informational                           4 February 2025
-Expires: 8 August 2025
+Intended status: Informational                             18 April 2025
+Expires: 20 October 2025
 
 
  Automated Certificate Management Environment (ACME) Profiles Extension
@@ -39,13 +39,22 @@ Current Implementations
 
    This note is to be removed before publishing as an RFC.
 
-   Let's Encrypt's Boulder (https://github.com/letsencrypt/boulder) ACME
-   Server software fully implements this draft.  Let's Encrypt has not
-   yet configured profiles to be advertised in their Production
-   (https://acme-v02.api.letsencrypt.org/directory) and Staging
-   (https://acme-staging-v02.api.letsencrypt.org/directory)
-   environments.  The Pebble (https://github.com/letsencrypt/pebble)
-   ACME Server testbed also implements this draft.
+   This document is implemented by at least two ACME Servers (Boulder
+   (https://github.com/letsencrypt/boulder/issues/7309) and Pebble
+   (https://github.com/letsencrypt/pebble/pull/473)), and at least six
+   ACME Clients (Certbot (https://github.com/certbot/certbot/
+   issues/10194), Lego (https://github.com/go-acme/lego/pull/2415),
+   eggsampler/acme (https://github.com/eggsampler/acme/pull/25), caddy
+   (https://github.com/caddyserver/caddy/
+   commit/2c4295ee48f494bc8dda5fa09b37612d520c8b3b), certifytheweb
+   (https://docs.certifytheweb.com/blog/acme-profiles-draft/), and
+   poshacme (https://github.com/rmbolger/Posh-ACME/releases/tag/
+   v4.28.0)).  It is deployed (https://letsencrypt.org/2025/01/09/acme-
+   profiles/) by the Let's Encrypt CA, with three profiles
+   (https://letsencrypt.org/docs/profiles/) advertised in both their
+   staging (https://acme-staging-v02.api.letsencrypt.org/directory) and
+   production (https://acme-v02.api.letsencrypt.org/directory)
+   directories.
 
 Status of This Memo
 
@@ -62,7 +71,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 August 2025.
+   This Internet-Draft will expire on 20 October 2025.
 
 Copyright Notice
 
