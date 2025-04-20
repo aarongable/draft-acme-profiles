@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-30T01:52:59.826858+00:00",
+  "timestamp": "2025-04-20T01:54:37.719887+00:00",
   "repo": "aarongable/draft-acme-profiles",
   "labels": [
     {
@@ -181,6 +181,90 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOMniVDM6TJdim",
+      "title": "Update list of current implementations",
+      "url": "https://github.com/aarongable/draft-acme-profiles/pull/6",
+      "state": "MERGED",
+      "author": "aarongable",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Add links to the implementations in two servers and six clients. Also add links to where it has been deployed and is in active use.",
+      "createdAt": "2025-04-18T17:40:59Z",
+      "updatedAt": "2025-04-18T17:41:07Z",
+      "baseRepository": "aarongable/draft-acme-profiles",
+      "baseRefName": "main",
+      "baseRefOid": "cdaa9f6836ecfb4b5909be7131134aa29ebb1216",
+      "headRepository": "aarongable/draft-acme-profiles",
+      "headRefName": "update-impls",
+      "headRefOid": "09ed52b451d174462291fb80b1115d79296c27df",
+      "closedAt": "2025-04-18T17:41:05Z",
+      "mergedAt": "2025-04-18T17:41:05Z",
+      "mergedBy": "aarongable",
+      "mergeCommit": {
+        "oid": "274e811e0551ea650c6a275526b4b111bf20e655"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOMniVDM6TJgH-",
+      "title": "Improve example URLs in-line with feedback on ARI draft",
+      "url": "https://github.com/aarongable/draft-acme-profiles/pull/7",
+      "state": "MERGED",
+      "author": "aarongable",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The ARI draft received feedback that it would be better for the URLs used in examples to be \"acme.example.com\", rather than \"example.com/acme\". Update this document to follow that same advice.",
+      "createdAt": "2025-04-18T17:49:41Z",
+      "updatedAt": "2025-04-18T17:49:48Z",
+      "baseRepository": "aarongable/draft-acme-profiles",
+      "baseRefName": "main",
+      "baseRefOid": "274e811e0551ea650c6a275526b4b111bf20e655",
+      "headRepository": "aarongable/draft-acme-profiles",
+      "headRefName": "improve-example-urls",
+      "headRefOid": "c771b012d92a824c46b963a72e578d9c94458aee",
+      "closedAt": "2025-04-18T17:49:47Z",
+      "mergedAt": "2025-04-18T17:49:47Z",
+      "mergedBy": "aarongable",
+      "mergeCommit": {
+        "oid": "74f42a35ab2fcd1911080a6729ca0b97406b79b5"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOMniVDM6TJiSk",
+      "title": "Improve the formatting of the example requests/responses",
+      "url": "https://github.com/aarongable/draft-acme-profiles/pull/8",
+      "state": "MERGED",
+      "author": "aarongable",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Include an HTTP response header at the top of the newly-created order, and give all the examples consistent indentation and key ordering.",
+      "createdAt": "2025-04-18T17:55:31Z",
+      "updatedAt": "2025-04-18T17:55:38Z",
+      "baseRepository": "aarongable/draft-acme-profiles",
+      "baseRefName": "main",
+      "baseRefOid": "74f42a35ab2fcd1911080a6729ca0b97406b79b5",
+      "headRepository": "aarongable/draft-acme-profiles",
+      "headRefName": "improve-examples",
+      "headRefOid": "168543cebf66b89ad8b41deb638e75c232526c77",
+      "closedAt": "2025-04-18T17:55:37Z",
+      "mergedAt": "2025-04-18T17:55:37Z",
+      "mergedBy": "aarongable",
+      "mergeCommit": {
+        "oid": "d1d63d10cf7d322d22e1dd26db235babf1c8687b"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
