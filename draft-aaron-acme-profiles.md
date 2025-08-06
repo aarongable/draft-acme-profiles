@@ -1,7 +1,7 @@
 ---
 title: "Automated Certificate Management Environment (ACME) Profiles Extension"
 abbrev: "ACME Profiles"
-category: info
+category: std
 
 docname: draft-aaron-acme-profiles-latest
 submissiontype: IETF
