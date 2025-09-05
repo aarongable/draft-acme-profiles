@@ -90,7 +90,7 @@ In order to convey information about the profile associated with an Order, a new
 
 `profile` (string, optional): A string uniquely identifying the profile which will be used to affect issuance of the certificate requested by this Order.
 
-To select a profile, the client includes the desired profile name in the `profile` field of the Order object they supply to the newOrder request. The client MUST NOT request a profile name that is not advertised in the server's Directory metadata object.
+To select a profile, the client includes the desired profile name in the `profile` field of the Order object they supply to the newOrder request. The client SHOULD NOT request a profile name that is not advertised in the server's Directory metadata object.
 
 ~~~ text
     POST /acme/new-order HTTP/1.1
