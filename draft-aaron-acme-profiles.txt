@@ -4,8 +4,8 @@
 
 Automated Certificate Management Environment                    A. Gable
 Internet-Draft                          Internet Security Research Group
-Intended status: Standards Track                           6 August 2025
-Expires: 7 February 2026
+Intended status: Standards Track                        5 September 2025
+Expires: 9 March 2026
 
 
  Automated Certificate Management Environment (ACME) Profiles Extension
@@ -72,7 +72,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 February 2026.
+   This Internet-Draft will expire on 9 March 2026.
 
 Copyright Notice
 
@@ -198,7 +198,7 @@ Table of Contents
 
    To select a profile, the client includes the desired profile name in
    the profile field of the Order object they supply to the newOrder
-   request.  The client MUST NOT request a profile name that is not
+   request.  The client SHOULD NOT request a profile name that is not
    advertised in the server's Directory metadata object.
 
        POST /acme/new-order HTTP/1.1
