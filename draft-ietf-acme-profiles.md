@@ -3,7 +3,7 @@ title: "Automated Certificate Management Environment (ACME) Profiles Extension"
 abbrev: "ACME Profiles"
 category: std
 
-docname: draft-aaron-acme-profiles-latest
+docname: draft-ietf-acme-profiles-latest
 submissiontype: IETF
 consensus: true
 v: 3
@@ -15,7 +15,7 @@ venue:
   mail: "acme@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/acme/"
   github: "aarongable/draft-acme-profiles"
-  latest: "https://aarongable.github.io/draft-acme-profiles/draft-aaron-acme-profiles.html"
+  latest: "https://aarongable.github.io/draft-acme-profiles/draft-ietf-acme-profiles.html"
 
 author:
  -
